@@ -123,7 +123,7 @@ fi
 # which indicates that we try without any flags at all, and "pthread-config"
 # which is a program returning the flags for the Pth emulation library.
 
-ax_pthread_flags="pthreads none -Kthread -kthread lthread -pthread -pthreads -mthreads pthread --thread-safe -mt pthread-config"
+ax_pthread_flags="pthread pthreads none -Kthread -kthread lthread -pthread -pthreads -mthreads pthread --thread-safe -mt pthread-config"
 
 # The ordering *is* (sometimes) important.  Some notes on the
 # individual items follow:
@@ -204,7 +204,8 @@ for flag in $ax_pthread_flags; do
         # pthread_cleanup_push because it is one of the few pthread
         # functions on Solaris that doesn't have a non-functional libc stub.
         # We try pthread_create on general principles.
-        AC_LINK_IFELSE([AC_LANG_PROGRAM([#include <pthread.h>
+        AC_LINK_IFELSE([AC_LANG_PROGRAM([#include <arm-linux-gnueabihf/sys/cdefs.h>
+        #include <pthread.h>
                         static void routine(void *a) { a = 0; }
                         static void *start_routine(void *a) { return a; }],
                        [pthread_t th; pthread_attr_t attr;
@@ -240,7 +241,7 @@ if test "x$ax_pthread_ok" = xyes; then
         AC_MSG_CHECKING([for joinable pthread attribute])
         attr_name=unknown
         for attr in PTHREAD_CREATE_JOINABLE PTHREAD_CREATE_UNDETACHED; do
-            AC_LINK_IFELSE([AC_LANG_PROGRAM([#include <pthread.h>],
+            AC_LINK_IFELSE([AC_LANG_PROGRAM([#include <arm-linux-gnueabihf/sys/cdefs.h>#include <pthread.h>],
                            [int attr = $attr; return attr /* ; */])],
                 [attr_name=$attr; break],
                 [])
@@ -273,7 +274,7 @@ if test "x$ax_pthread_ok" = xyes; then
         AC_CACHE_CHECK([for PTHREAD_PRIO_INHERIT],
             ax_cv_PTHREAD_PRIO_INHERIT, [
                 AC_LINK_IFELSE([
-                    AC_LANG_PROGRAM([[#include <pthread.h>]], [[int i = PTHREAD_PRIO_INHERIT;]])],
+                    AC_LANG_PROGRAM([[#include <arm-linux-gnueabihf/sys/cdefs.h>#include <pthread.h>]], [[int i = PTHREAD_PRIO_INHERIT;]])],
                     [ax_cv_PTHREAD_PRIO_INHERIT=yes],
                     [ax_cv_PTHREAD_PRIO_INHERIT=no])
             ])

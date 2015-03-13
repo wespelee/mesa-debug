@@ -1347,7 +1347,7 @@ if test "x$enable_dri" = xyes; then
 
     # default drivers
     if test "x$with_dri_drivers" = "xyes"; then
-        with_dri_drivers="i915 i965 nouveau r200 radeon swrast"
+        with_dri_drivers="nouveau r200 radeon swrast"
     fi
 
     # Check for expat
